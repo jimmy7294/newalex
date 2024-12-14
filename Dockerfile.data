@@ -1,0 +1,4 @@
+FROM alpine:3.19
+COPY ktem_app_data /app/ktem_app_data
+VOLUME /app/ktem_app_data
+CMD ["tail", "-f", "/dev/null"]

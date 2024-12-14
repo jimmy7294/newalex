@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  data:
+    build:
+      context: .
+      dockerfile: Dockerfile.data
+    container_name: alexgpt-data
+    volumes:
+      - app_data:/app/ktem_app_data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alexgpt
+    environment:
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - GRADIO_SERVER_PORT=9999
+    ports:
+      - "9999:9999"
+    volumes_from:
+      - data
+    depends_on:
+      - data
+
+volumes:
+  app_data:
