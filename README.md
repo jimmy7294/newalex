@@ -120,8 +120,14 @@ cp .env.example .env
 ```
 Ensure you configure the `OPENAI_API_KEY` and other required variables.
 
-3. Enable PDF Viewer (Optional)  
- To enable in-browser `PDF_JS` viewer, download [PDF_JS_DIST](https://github.com/mozilla/pdf.js/releases/download/v4.0.379/pdfjs-4.0.379-dist.zip) then extract it to `libs/ktem/ktem/assets/prebuilt` 
+### Database Setup
+
+3. To set up the database folder, run the following commands:
+
+```bash
+bash setup.sh
+```
+
 
 4. Start the web server:
 
