@@ -38,10 +38,6 @@ RUN --mount=type=ssh  \
     && pip install -e "libs/ktem" \
     && pip install "pdfservices-sdk@git+https://github.com/niallcm/pdfservices-python-sdk.git@bump-and-unfreeze-requirements"
 
-RUN --mount=type=ssh  \
-    --mount=type=cache,target=/root/.cache/pip  \
-    if [ "$TARGETARCH" = "amd64" ]; then pip install "graphrag<=0.3.6" future; fi
-
 # Clean up
 RUN apt-get autoremove \
     && apt-get clean \
@@ -74,12 +70,6 @@ RUN --mount=type=ssh  \
     --mount=type=cache,target=/root/.cache/pip  \
     pip install -e "libs/kotaemon[adv]" \
     && pip install unstructured[all-docs]
-
-# Install lightRAG
-ENV USE_LIGHTRAG=true
-RUN --mount=type=ssh  \
-    --mount=type=cache,target=/root/.cache/pip  \
-    pip install aioboto3 nano-vectordb ollama xxhash "lightrag-hku<=0.0.8"
 
 RUN --mount=type=ssh  \
     --mount=type=cache,target=/root/.cache/pip  \

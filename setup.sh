@@ -9,11 +9,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Create the target directory if it doesn't exist
-mkdir -p ktem_app_data
-
 echo "Extracting the database folder..."
-tar -xf ktem_app_data.tar.xz -C ktem_app_data
+tar -xf ktem_app_data.tar.xz
 
 # Check if the extraction was successful
 if [ $? -ne 0 ]; then
