@@ -21,23 +21,23 @@ from ..pipelines import BaseFileIndexRetriever
 from .pipelines import GraphRAGIndexingPipeline
 from .visualize import create_knowledge_graph, visualize_graph
 
-try:
-    from nano_graphrag import GraphRAG, QueryParam
-    from nano_graphrag._op import (
-        _find_most_related_community_from_entities,
-        _find_most_related_edges_from_entities,
-        _find_most_related_text_unit_from_entities,
-    )
-    from nano_graphrag._utils import EmbeddingFunc, compute_args_hash
+# try:
+#     from nano_graphrag import GraphRAG, QueryParam
+#     from nano_graphrag._op import (
+#         _find_most_related_community_from_entities,
+#         _find_most_related_edges_from_entities,
+#         _find_most_related_text_unit_from_entities,
+#     )
+#     from nano_graphrag._utils import EmbeddingFunc, compute_args_hash
 
-except ImportError:
-    print(
-        (
-            "Nano-GraphRAG dependencies not installed. "
-            "Try `pip install nano-graphrag` to install. "
-            "Nano-GraphRAG retriever pipeline will not work properly."
-        )
-    )
+# except ImportError:
+#     print(
+#         (
+#             "Nano-GraphRAG dependencies not installed. "
+#             "Try `pip install nano-graphrag` to install. "
+#             "Nano-GraphRAG retriever pipeline will not work properly."
+#         )
+#     )
 
 
 logging.getLogger("nano-graphrag").setLevel(logging.INFO)

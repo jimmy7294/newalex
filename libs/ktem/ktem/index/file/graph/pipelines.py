@@ -19,29 +19,29 @@ from kotaemon.base import Document, Param, RetrievedDocument
 from ..pipelines import BaseFileIndexRetriever, IndexDocumentPipeline, IndexPipeline
 from .visualize import create_knowledge_graph, visualize_graph
 
-try:
-    from graphrag.query.context_builder.entity_extraction import EntityVectorStoreKey
-    from graphrag.query.indexer_adapters import (
-        read_indexer_entities,
-        read_indexer_relationships,
-        read_indexer_reports,
-        read_indexer_text_units,
-    )
-    from graphrag.query.input.loaders.dfs import store_entity_semantic_embeddings
-    from graphrag.query.llm.oai.embedding import OpenAIEmbedding
-    from graphrag.query.llm.oai.typing import OpenaiApiType
-    from graphrag.query.structured_search.local_search.mixed_context import (
-        LocalSearchMixedContext,
-    )
-    from graphrag.vector_stores.lancedb import LanceDBVectorStore
-except ImportError:
-    print(
-        (
-            "GraphRAG dependencies not installed. "
-            "Try `pip install graphrag future` to install. "
-            "GraphRAG retriever pipeline will not work properly."
-        )
-    )
+# try:
+#     from graphrag.query.context_builder.entity_extraction import EntityVectorStoreKey
+#     from graphrag.query.indexer_adapters import (
+#         read_indexer_entities,
+#         read_indexer_relationships,
+#         read_indexer_reports,
+#         read_indexer_text_units,
+#     )
+#     from graphrag.query.input.loaders.dfs import store_entity_semantic_embeddings
+#     from graphrag.query.llm.oai.embedding import OpenAIEmbedding
+#     from graphrag.query.llm.oai.typing import OpenaiApiType
+#     from graphrag.query.structured_search.local_search.mixed_context import (
+#         LocalSearchMixedContext,
+#     )
+#     from graphrag.vector_stores.lancedb import LanceDBVectorStore
+# except ImportError:
+#     print(
+#         (
+#             "GraphRAG dependencies not installed. "
+#             "Try `pip install graphrag future` to install. "
+#             "GraphRAG retriever pipeline will not work properly."
+#         )
+#     )
 
 
 filestorage_path = Path(settings.KH_FILESTORAGE_PATH) / "graphrag"

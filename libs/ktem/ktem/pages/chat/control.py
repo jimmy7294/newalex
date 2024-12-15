@@ -48,9 +48,17 @@ class ConversationControl(BasePage):
                 elem_classes=["no-background", "body-text-color"],
                 elem_id="toggle-dark-button",
             )
+            self.btn_chat_expand = gr.Button(
+                value="",
+                icon=f"{ASSETS_DIR}/expand.svg",
+                scale=1,
+                size="sm",
+                elem_classes=["no-background", "body-text-color"],
+                elem_id="chat-expand-button",
+            )
             self.btn_info_expand = gr.Button(
                 value="",
-                icon=f"{ASSETS_DIR}/sidebar.svg",
+                icon=f"{ASSETS_DIR}/expand.svg",
                 min_width=2,
                 scale=1,
                 size="sm",
@@ -131,9 +139,7 @@ class ConversationControl(BasePage):
                 visible=False,
             )
 
-        self.followup_suggestions = gr.State([])
-        if getattr(flowsettings, "KH_FEATURE_CHAT_SUGGESTION", False):
-            self.chat_suggestion = ChatSuggestion(self._app)
+        self.chat_suggestion = ChatSuggestion(self._app)
 
     def load_chat_history(self, user_id):
         """Reload chat history"""
@@ -251,7 +257,6 @@ class ConversationControl(BasePage):
                     selected = {}
 
                 chats = result.data_source.get("messages", [])
-
                 chat_suggestions = result.data_source.get("chat_suggestions", [])
 
                 retrieval_history: list[str] = result.data_source.get(

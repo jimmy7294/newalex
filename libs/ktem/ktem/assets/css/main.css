@@ -5,6 +5,7 @@
 
 /* no footer */
 
+
 footer {
   display: block !important;
   position: fixed;
@@ -44,6 +45,11 @@ footer::before {
   background: var(--background-fill-primary);
 }
 
+/* Hide logo */
+#hide-logo .gradio-container::before {
+  display: none !important;
+}
+
 .gradio-container {
   max-width: 100% !important;
   padding-bottom: var(--footer-height) !important;
@@ -75,11 +81,11 @@ footer::before {
 
 /* selected buttons have highlighted text */
 button.selected {
-  color: #ffd301;
+  color: #0062ac;
   font-weight: bold;
 }
 
-.message-row.bubble.bot-row {
+.message-row.bubble.bot-row{
   overflow-x: auto;
 }
 
@@ -127,10 +133,16 @@ button.selected {
   overflow: auto !important;
   transition: all 0.4s;
 }
+body.dark {
+  --background-fill-primary: #1F1F1F;
+  --background-fill-secondary: #2F2F2F;
+  --border-color-primary: #404040;
+}
 
-body.dark #chat-info-panel figure > img {
+body.dark #chat-info-panel figure>img{
   filter: invert(100%);
 }
+
 
 #conv-settings-panel {
   margin-top: 75px !important;
@@ -147,12 +159,14 @@ body.dark #chat-info-panel figure > img {
 }
 
 #conv-settings-panel::before {
-  display: none;
+  display: none; 
 }
+
+/* Default logo display */
 .gradio-container::before {
-  content: "";
+  content: '';
   display: block;
-  background-image: url("https://www.regeringen.ax/themes/custom/regeringen/logo.svg");
+  background-image: url('https://www.regeringen.ax/themes/custom/regeringen/logo.svg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -165,6 +179,7 @@ body.dark #chat-info-panel figure > img {
   background-color: var(--background-fill-primary);
   padding: 0 10px;
 }
+
 
 #conv-settings-panel::-webkit-scrollbar {
   /* WebKit */
@@ -186,7 +201,7 @@ td {
 }
 
 mark {
-  background-color: #ffd700;
+  background-color: #FFD700;
 }
 
 /* clpse */
@@ -337,7 +352,7 @@ pdfjs-viewer-element {
 }
 
 .modal-header {
-  padding: 0px 10px;
+  padding: 0px 10px
 }
 
 .modal-content {
@@ -394,28 +409,28 @@ pdfjs-viewer-element {
   height: 1em;
   width: 1em;
   border-radius: 1em;
-  background: #fff;
+  background: #FFF;
   box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.3);
   -webkit-transition: all 300ms;
   -moz-transition: all 300ms;
   transition: all 300ms;
 }
 
-.switch input:checked + div {
+.switch input:checked+div {
   -webkit-transform: translate3d(100%, 0, 0);
   -moz-transform: translate3d(100%, 0, 0);
   transform: translate3d(100%, 0, 0);
-  background: #ffd700;
+  background: #FFD700;
 }
 
 .switch:has(> input:checked) {
-  background: #b8860b;
+  background: #B8860B;
 }
 
 /* Bot animation */
 
 .message.bot {
-  animation: fadein 1s ease-in-out forwards;
+  animation: fadein 1.0s ease-in-out forwards;
 }
 
 details.evidence {
@@ -433,7 +448,7 @@ details.evidence {
 }
 
 .message a.citation {
-  color: #ffd700;
+  color: #FFD700;
   text-decoration: none;
 }
 

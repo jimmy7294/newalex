@@ -1,11 +1,10 @@
 import os
-import nltk
-import sys
 from importlib.metadata import version
 from inspect import currentframe, getframeinfo
 from pathlib import Path
 
 from decouple import config
+from ktem.utils.lang import SUPPORTED_LANGUAGE_MAP
 from theflow.settings.default import *  # noqa
 
 cur_frame = currentframe()
@@ -28,6 +27,7 @@ if not KH_APP_VERSION:
 
 KH_ENABLE_FIRST_SETUP = True
 KH_DEMO_MODE = config("KH_DEMO_MODE", default=False, cast=bool)
+KH_OLLAMA_URL = config("KH_OLLAMA_URL", default="http://localhost:11434/v1/")
 
 # App can be ran from anywhere and it's not trivial to decide where to store app data.
 # So let's use the same directory as the flowsetting.py file.
@@ -141,7 +141,7 @@ if config("OPENAI_API_KEY", default=""):
             "base_url": config("OPENAI_API_BASE", default="")
             or "https://api.openai.com/v1",
             "api_key": config("OPENAI_API_KEY", default=""),
-            "model": config("OPENAI_CHAT_MODEL", default="gpt-4o-mini"),
+            "model": config("OPENAI_CHAT_MODEL", default="gpt-3.5-turbo"),
             "timeout": 20,
         },
         "default": True,
@@ -152,7 +152,7 @@ if config("OPENAI_API_KEY", default=""):
             "base_url": config("OPENAI_API_BASE", default="https://api.openai.com/v1"),
             "api_key": config("OPENAI_API_KEY", default=""),
             "model": config(
-                "OPENAI_EMBEDDINGS_MODEL", default="text-embedding-3-small"
+                "OPENAI_EMBEDDINGS_MODEL", default="text-embedding-ada-002"
             ),
             "timeout": 10,
             "context_length": 8191,
@@ -164,7 +164,7 @@ if config("LOCAL_MODEL", default=""):
     KH_LLMS["ollama"] = {
         "spec": {
             "__type__": "kotaemon.llms.ChatOpenAI",
-            "base_url": "http://localhost:11434/v1/",
+            "base_url": KH_OLLAMA_URL,
             "model": config("LOCAL_MODEL", default="llama3.1:8b"),
             "api_key": "ollama",
         },
@@ -173,7 +173,7 @@ if config("LOCAL_MODEL", default=""):
     KH_EMBEDDINGS["ollama"] = {
         "spec": {
             "__type__": "kotaemon.embeddings.OpenAIEmbeddings",
-            "base_url": "http://localhost:11434/v1/",
+            "base_url": KH_OLLAMA_URL,
             "model": config("LOCAL_MODEL_EMBEDDINGS", default="nomic-embed-text"),
             "api_key": "ollama",
         },
@@ -197,11 +197,11 @@ KH_LLMS["claude"] = {
     },
     "default": False,
 }
-KH_LLMS["gemini"] = {
+KH_LLMS["google"] = {
     "spec": {
         "__type__": "kotaemon.llms.chats.LCGeminiChat",
-        "model_name": "gemini-1.5-pro",
-        "api_key": "your-key",
+        "model_name": "gemini-1.5-flash",
+        "api_key": config("GOOGLE_API_KEY", default="your-key"),
     },
     "default": False,
 }
@@ -232,6 +232,13 @@ KH_EMBEDDINGS["cohere"] = {
         "user_agent": "default",
     },
     "default": False,
+}
+KH_EMBEDDINGS["google"] = {
+    "spec": {
+        "__type__": "kotaemon.embeddings.LCGoogleEmbeddings",
+        "model": "models/text-embedding-004",
+        "google_api_key": config("GOOGLE_API_KEY", default="your-key"),
+    }
 }
 # KH_EMBEDDINGS["huggingface"] = {
 #     "spec": {
@@ -278,7 +285,7 @@ SETTINGS_REASONING = {
     "lang": {
         "name": "Language",
         "value": "en",
-        "choices": [("English", "en"), ("Japanese", "ja"), ("Vietnamese", "vi")],
+        "choices": [(lang, code) for code, lang in SUPPORTED_LANGUAGE_MAP.items()],
         "component": "dropdown",
     },
     "max_context_length": {
@@ -305,7 +312,8 @@ KH_INDEX_TYPES = [
 
 GRAPHRAG_INDICES = [
     {
-        "name": graph_type.split(".")[-1].replace("Index", ""),  # get last name
+        "name": graph_type.split(".")[-1].replace("Index", "")
+        + " Collection",  # get last name
         "config": {
             "supported_file_types": (
                 ".png, .jpeg, .jpg, .tiff, .tif, .pdf, .xls, .xlsx, .doc, .docx, "
@@ -320,7 +328,7 @@ GRAPHRAG_INDICES = [
 
 KH_INDICES = [
     {
-        "name": "File",
+        "name": "File Collection",
         "config": {
             "supported_file_types": (
                 ".png, .jpeg, .jpg, .tiff, .tif, .pdf, .xls, .xlsx, .doc, .docx, "
@@ -332,21 +340,3 @@ KH_INDICES = [
     },
     *GRAPHRAG_INDICES,
 ]
-
-# Get the venv path from the current Python executable path
-venv_path = Path(os.path.dirname(os.path.dirname(sys.executable)))
-nltk_data_path = venv_path / 'lib' / 'nltk_data'
-nltk_data_path.mkdir(parents=True, exist_ok=True)
-
-def initialize_nltk():
-    try:
-        nltk.download('averaged_perceptron_tagger', 
-                     download_dir=str(nltk_data_path), 
-                     quiet=True)
-    except Exception as e:
-        print(f"Warning: Failed to download NLTK data: {e}")
-
-# Call this during application startup
-initialize_nltk()
-
-

@@ -21,22 +21,22 @@ from ..pipelines import BaseFileIndexRetriever
 from .pipelines import GraphRAGIndexingPipeline
 from .visualize import create_knowledge_graph, visualize_graph
 
-try:
-    from lightrag import LightRAG, QueryParam
-    from lightrag.operate import (
-        _find_most_related_edges_from_entities,
-        _find_most_related_text_unit_from_entities,
-    )
-    from lightrag.utils import EmbeddingFunc, compute_args_hash
+# try:
+#     from lightrag import LightRAG, QueryParam
+#     from lightrag.operate import (
+#         _find_most_related_edges_from_entities,
+#         _find_most_related_text_unit_from_entities,
+#     )
+#     from lightrag.utils import EmbeddingFunc, compute_args_hash
 
-except ImportError:
-    print(
-        (
-            "LightRAG dependencies not installed. "
-            "Try `pip install git+https://github.com/HKUDS/LightRAG.git` to install. "
-            "LighthRAG retriever pipeline will not work properly."
-        )
-    )
+# except ImportError:
+#     print(
+#         (
+#             "LightRAG dependencies not installed. "
+#             "Try `pip install git+https://github.com/HKUDS/LightRAG.git` to install. "
+#             "LighthRAG retriever pipeline will not work properly."
+#         )
+#     )
 
 
 logging.getLogger("lightrag").setLevel(logging.INFO)

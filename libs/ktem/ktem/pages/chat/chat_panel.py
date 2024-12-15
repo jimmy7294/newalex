@@ -11,8 +11,7 @@ class ChatPanel(BasePage):
         self.chatbot = gr.Chatbot(
             label=self._app.app_name,
             placeholder=(
-                "This is the beginning of a new conversation.\nIf you are new, "
-                "visit the Help tab for quick instructions."
+                "Hej jag är AlexGPT din juridiska assistent om Aland. Behöver du hjälp?"
             ),
             show_label=False,
             elem_id="main-chat-bot",
