@@ -478,3 +478,5 @@ doc_env/
 ktem_app_data/
 gradio_tmp/
 ktem_app_data.zip
+ktem_app_data.tar.xz
+ktem_app_data.7z

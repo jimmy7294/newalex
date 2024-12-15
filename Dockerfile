@@ -4,13 +4,13 @@ FROM python:3.10-slim AS lite
 # Common dependencies
 RUN apt-get update -qqy && \
     apt-get install -y --no-install-recommends \
-      cargo \
-      curl \
-      g++ \
+      ssh \
+      git \
       gcc \
-      libpoppler-dev \
+      g++ \
       poppler-utils \
-    && rm -rf /var/lib/apt/lists/* \
+      libpoppler-dev \
+      unzip \
       curl \
       cargo
 
@@ -26,12 +26,6 @@ ENV TARGETARCH=${TARGETARCH}
 
 # Create working directory
 WORKDIR /app
-
-# Download pdfjs
-COPY scripts/download_pdfjs.sh /app/scripts/download_pdfjs.sh
-RUN chmod +x /app/scripts/download_pdfjs.sh
-ENV PDFJS_PREBUILT_DIR="/app/libs/ktem/ktem/assets/prebuilt/pdfjs-dist"
-RUN bash scripts/download_pdfjs.sh $PDFJS_PREBUILT_DIR
 
 # Copy contents
 COPY . /app
@@ -62,14 +56,13 @@ FROM lite AS full
 # Additional dependencies for full version
 RUN apt-get update -qqy && \
     apt-get install -y --no-install-recommends \
-      ffmpeg \
-      libmagic-dev \
-      libreoffice \
-      libsm6 \
-      libxext6 \
       tesseract-ocr \
       tesseract-ocr-jpn \
-    && rm -rf /var/lib/apt/lists/*
+      libsm6 \
+      libxext6 \
+      libreoffice \
+      ffmpeg \
+      libmagic-dev
 
 # Install torch and torchvision for unstructured
 RUN --mount=type=ssh  \
@@ -99,6 +92,6 @@ RUN apt-get autoremove \
     && rm -rf ~/.cache
 
 # Download nltk packages as required for unstructured
-RUN python -m nltk.downloader all
+RUN python -m nltk.downloader punkt averaged_perceptron_tagger
 
 CMD ["python", "app.py"]
